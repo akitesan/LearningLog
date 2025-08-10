@@ -1,0 +1,191 @@
+/* 全てのスタイルを統合し、`set_goal.html`でも機能するように調整 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    padding: 20px;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+header p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+}
+
+#evolution-container img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    margin: 20px 0;
+}
+
+.form-section {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.input-sections-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.form-section {
+    flex: 1;
+    min-width: 150px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.input-group input[type="number"] {
+    padding: 8px;
+    width: 80px;
+    text-align: center;
+}
+
+.input-group select {
+    padding: 8px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.stats-section {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.bottom-section {
+    width: 100%;
+    text-align: center;
+    margin-top: auto;
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#logout-btn {
+    background-color: #f44336;
+    margin-top: 20px;
+}
+
+/* PC版 (画面幅が768px以上) での表示領域 */
+@media (min-width: 768px) {
+    body {
+        padding: 0;
+    }
+
+    header {
+        text-align: left;
+        padding: 20px 40px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header p {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+        padding: 40px;
+        box-shadow: none;
+        margin: 0;
+        min-height: calc(100vh - 150px);
+    }
+
+    #evolution-container {
+        flex: 1;
+        text-align: left;
+    }
+
+    #evolution-container img {
+        width: 400px;
+        height: 400px;
+    }
+
+    .right-section {
+        flex: 1;
+        text-align: left;
+        padding-left: 40px;
+    }
+
+    .input-sections-wrapper {
+        display: flex;
+        gap: 20px;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .form-section {
+        max-width: none;
+        margin: 20px 0;
+        flex: 1;
+    }
+
+    .input-group {
+        justify-content: flex-start;
+    }
+
+    .bottom-section {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        background-color: #fff;
+        border-top: 1px solid #ddd;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    }
+}

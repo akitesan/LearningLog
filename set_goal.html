@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目標設定</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="set-goal-app">
+        <div class="container">
+            <h1>学習目標を設定しましょう</h1>
+            <div class="form-section">
+                <p>目標時間</p>
+                <div class="input-group">
+                    <input type="number" v-model.number="goalTimeInput" placeholder="目標時間">
+                    <select v-model="goalTimeUnit">
+                        <option value="minutes">分</option>
+                        <option value="hours">時間</option>
+                    </select>
+                </div>
+                <button @click="setGoal">目標を設定</button>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="set_goal.js"></script>
+</body>
+
+</html>

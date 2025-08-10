@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>レベルアップ</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header v-if="user">
+            <p>{{ user.displayName }}さん、ようこそ！</p>
+        </header>
+
+        <div class="container">
+            <div id="evolution-container">
+                <img :src="currentImageSrc" :alt="imageAltText">
+                <p>達成率: {{ achievementRate }}%</p>
+                <button @click="toggleImageMode">表示切り替え</button>
+            </div>
+            <div class="right-section">
+                <div class="input-sections-wrapper">
+                    <div class="form-section">
+                        <p>学習時間</p>
+                        <div class="input-group">
+                            <input type="number" v-model.number="studyTimeInput" placeholder="本日学習時間">
+                            <select v-model="studyTimeUnit">
+                                <option value="minutes">分</option>
+                                <option value="hours">時間</option>
+                            </select>
+                        </div>
+                        <button @click="recordStudy">記録する</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="stats-section">
+                <p>目標時間: {{ formattedGoalTime }}</p>
+                <p>総学習時間: {{ formattedTotalTime }}</p>
+            </div>
+            <div class="reset-buttons">
+                <button @click="resetAll">全てをリセット</button>
+            </div>
+            <button @click="logout" id="logout-btn">ログアウト</button>
+        </div>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
