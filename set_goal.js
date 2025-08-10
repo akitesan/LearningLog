@@ -16,8 +16,8 @@ const setGoalApp = Vue.createApp({
     data() {
         return {
             user: null,
-            goalTimeInput: null,
-            goalTimeUnit: 'minutes',
+            studyTimeHours: null,
+            studyTimeMinutes: null
         };
     },
     created() {
@@ -27,11 +27,9 @@ const setGoalApp = Vue.createApp({
                 const userDocRef = doc(db, 'users', user.uid);
                 const docSnap = await getDoc(userDocRef);
                 if (docSnap.exists() && docSnap.data().goalTime > 0) {
-                    // 目標時間が既に設定されている場合は、メインページにリダイレクト
                     window.location.href = 'index.html';
                 }
             } else {
-                // 認証されていない場合はログインページへ
                 window.location.href = 'login.html';
             }
         });
@@ -39,13 +37,13 @@ const setGoalApp = Vue.createApp({
     methods: {
         async setGoal() {
             if (!this.user) return;
-            let timeInMinutes = this.goalTimeInput;
-            if (this.goalTimeUnit === 'hours') {
-                timeInMinutes *= 60;
-            }
 
-            if (!timeInMinutes || timeInMinutes <= 0) {
-                alert("有効な目標時間を入力してください。");
+            const hours = parseInt(this.studyTimeHours) || 0;
+            const minutes = parseInt(this.studyTimeMinutes) || 0;
+            const timeInMinutes = hours * 60 + minutes;
+
+            if (timeInMinutes <= 0) {
+                alert("目標時間は0分より大きくする必要があります。");
                 return;
             }
 
@@ -53,7 +51,6 @@ const setGoalApp = Vue.createApp({
             await updateDoc(userDocRef, {
                 goalTime: timeInMinutes
             });
-            alert("目標時間を設定しました！");
             window.location.href = 'index.html';
         },
     }

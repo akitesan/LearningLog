@@ -18,9 +18,9 @@ const vueApp = Vue.createApp({
             user: null,
             goalTime: 0,
             totalStudyTime: 0,
-            studyTimeInput: null,
-            studyTimeUnit: 'minutes',
-            imageMode: 'animal', // 'animal' or 'country'
+            studyTimeHours: null, 
+            studyTimeMinutes: null, 
+            imageMode: 'animal',
         };
     },
     computed: {
@@ -85,12 +85,11 @@ const vueApp = Vue.createApp({
         },
         async recordStudy() {
             if (!this.user) return;
-            let timeInMinutes = this.studyTimeInput;
-            if (this.studyTimeUnit === 'hours') {
-                timeInMinutes *= 60;
-            }
+            const hours = parseInt(this.studyTimeHours) || 0;
+            const minutes = parseInt(this.studyTimeMinutes) || 0;
+            const timeInMinutes = hours * 60 + minutes;
 
-            if (!timeInMinutes || timeInMinutes <= 0) {
+            if (timeInMinutes <= 0) {
                 alert("有効な学習時間を入力してください。");
                 return;
             }
@@ -100,7 +99,8 @@ const vueApp = Vue.createApp({
                 totalStudyTime: this.totalStudyTime + timeInMinutes
             });
             this.totalStudyTime += timeInMinutes;
-            this.studyTimeInput = null;
+            this.studyTimeHours = null;
+            this.studyTimeMinutes = null;
         },
         async resetAll() {
             if (!this.user) return;

@@ -18,14 +18,17 @@
             <h1>学習目標を設定しましょう</h1>
             <div class="form-section">
                 <p>目標時間</p>
-                <div class="input-group">
-                    <input type="number" v-model.number="goalTimeInput" placeholder="目標時間">
-                    <select v-model="goalTimeUnit">
-                        <option value="minutes">分</option>
-                        <option value="hours">時間</option>
-                    </select>
+                <div class="study-time-input-group">
+                    <div class="input-group">
+                        <input type="number" v-model.number="studyTimeHours" placeholder="時間" min="0">
+                        <span>時間</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" v-model.number="studyTimeMinutes" placeholder="分" min="0" max="59">
+                        <span>分</span>
+                    </div>
+                    <button @click="setGoal">目標を設定</button>
                 </div>
-                <button @click="setGoal">目標を設定</button>
             </div>
         </div>
     </div>

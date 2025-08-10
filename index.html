@@ -16,40 +16,41 @@
     <div id="app">
         <header v-if="user">
             <p>{{ user.displayName }}さん、ようこそ！</p>
+            <div class="header-buttons">
+                <button @click="resetAll" id="reset-btn">すべてをリセット</button>
+                <button @click="logout" id="logout-btn">ログアウト</button>
+            </div>
         </header>
 
-        <div class="container">
-            <div id="evolution-container">
-                <img :src="currentImageSrc" :alt="imageAltText">
-                <p>達成率: {{ achievementRate }}%</p>
-                <button @click="toggleImageMode">表示切り替え</button>
+        <div class="main-content">
+            <div class="left-section">
+                <div class="stats-section">
+                    <h3>現在のレベル</h3>
+                    <p>目標: <span class="progress">{{ formattedGoalTime }}</span></p>
+                    <p>現在: <span class="progress">{{ formattedTotalTime }}</span></p>
+                    <p>達成率: <span class="progress">{{ achievementRate }}%</span></p>
+                </div>
+                <div id="evolution-container">
+                    <img :src="currentImageSrc" :alt="imageAltText" @click="toggleImageMode">
+                </div>
             </div>
+
             <div class="right-section">
-                <div class="input-sections-wrapper">
-                    <div class="form-section">
-                        <p>学習時間</p>
+                <div class="form-section">
+                    <h3>学習時間の記録</h3>
+                    <div class="study-time-input-group">
                         <div class="input-group">
-                            <input type="number" v-model.number="studyTimeInput" placeholder="本日学習時間">
-                            <select v-model="studyTimeUnit">
-                                <option value="minutes">分</option>
-                                <option value="hours">時間</option>
-                            </select>
+                            <input type="number" v-model.number="studyTimeHours" placeholder="時間" min="0">
+                            <span>時間</span>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" v-model.number="studyTimeMinutes" placeholder="分" min="0" max="59">
+                            <span>分</span>
                         </div>
                         <button @click="recordStudy">記録する</button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="bottom-section">
-            <div class="stats-section">
-                <p>目標時間: {{ formattedGoalTime }}</p>
-                <p>総学習時間: {{ formattedTotalTime }}</p>
-            </div>
-            <div class="reset-buttons">
-                <button @click="resetAll">全てをリセット</button>
-            </div>
-            <button @click="logout" id="logout-btn">ログアウト</button>
         </div>
     </div>
     <script type="module" src="app.js"></script>
