@@ -25,26 +25,26 @@ const vueApp = Vue.createApp({
             levelUpMessage: '',
             lastImageLevel: 0,
             imageTitles: {
-                5: 'アメーバ',
-                10: 'クラゲ',
-                15: 'ミミズ',
-                20: 'カタツムリ',
-                25: 'クモ',
-                30: 'カブトムシ',
-                35: 'サメ',
-                40: 'カエル',
-                45: 'カメ',
-                50: 'ティラノサウルス',
-                55: 'ワニ',
-                60: 'ペンギン',
-                65: 'カモノハシ',
-                70: 'コアラ',
-                75: 'キツネザル',
-                80: 'ゴリラ',
-                85: 'アウストラロピテクス',
-                90: 'ネアンデルタール人',
-                95: 'ホモ・サピエンス（初期）',
-                100: 'サイボーグ'
+                0: 'アメーバ',
+                5: 'クラゲ',
+                10: 'ミミズ',
+                15: 'カタツムリ',
+                20: 'クモ',
+                25: 'カブトムシ',
+                30: 'サメ',
+                35: 'カエル',
+                40: 'カメ',
+                45: 'ティラノサウルス',
+                50: 'ワニ',
+                55: 'ペンギン',
+                60: 'カモノハシ',
+                65: 'コアラ',
+                70: 'キツネザル',
+                75: 'ゴリラ',
+                80: 'アウストラロピテクス',
+                85: 'ネアンデルタール人',
+                90: 'ホモ・サピエンス（初期）',
+                95: 'サイボーグ'
             },
             imageDescriptions: {
                 5: '地球最初の生命体の一種。単細胞生物であり、環境の変化に柔軟に対応しながら生きています。',
@@ -150,16 +150,14 @@ const vueApp = Vue.createApp({
             const newTotalStudyTime = this.totalStudyTime + timeInMinutes;
             const newImageLevel = Math.floor((Math.min(100, Math.floor((newTotalStudyTime / this.goalTime) * 100))) / 5) * 5;
 
-            // レベルアップを検知
             if (newImageLevel > this.lastImageLevel) {
                 this.isLevelUp = true;
                 this.levelUpMessage = `${this.imageTitles[newImageLevel]}に進化しました！`;
                 this.lastImageLevel = newImageLevel;
 
-                // レベルアップメッセージを一定時間表示後に非表示にする
                 setTimeout(() => {
                     this.isLevelUp = false;
-                }, 3000); // 3秒後にリセット
+                }, 3000); 
             } else {
                 this.isLevelUp = false;
             }
