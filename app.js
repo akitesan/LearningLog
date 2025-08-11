@@ -21,6 +21,9 @@ const vueApp = Vue.createApp({
             studyTimeHours: null,
             studyTimeMinutes: null,
             imageMode: 'animal',
+            isLevelUp: false,
+            levelUpMessage: '',
+            lastImageLevel: 0,
             imageTitles: {
                 5: 'アメーバ',
                 10: 'クラゲ',
@@ -113,21 +116,12 @@ const vueApp = Vue.createApp({
             }
             return this.imageDescriptions[level];
         },
-        timeToNextLevel() {
-            if (this.goalTime === 0) {
-                return '目標を設定してください';
+        currentLevelProgress() {
+            if (this.isLevelUp) {
+                return 100;
             }
-            if (this.achievementRate >= 100) {
-                return '完了';
-            }
-            const currentLevel = Math.floor(this.achievementRate / 5) * 5;
-            const nextLevelPercentage = currentLevel + 5;
-            const timeNeededForNextLevel = this.goalTime * (nextLevelPercentage / 100);
-            const timeRemaining = timeNeededForNextLevel - this.totalStudyTime;
-            if (timeRemaining <= 0) {
-                return 'レベルアップ達成！';
-            }
-            return this.formatTime(Math.ceil(timeRemaining));
+            const progress = (this.totalStudyTime % (this.goalTime / 20)) / (this.goalTime / 20);
+            return Math.min(100, Math.floor(progress * 100));
         }
     },
     created() {
@@ -141,6 +135,42 @@ const vueApp = Vue.createApp({
         });
     },
     methods: {
+        async recordStudy() {
+            if (!this.user) return;
+            const hours = parseInt(this.studyTimeHours) || 0;
+            const minutes = parseInt(this.studyTimeMinutes) || 0;
+            const timeInMinutes = hours * 60 + minutes;
+
+            if (timeInMinutes <= 0) {
+                alert("有効な学習時間を入力してください。");
+                return;
+            }
+
+            const userDocRef = doc(db, 'users', this.user.uid);
+            const newTotalStudyTime = this.totalStudyTime + timeInMinutes;
+            const newImageLevel = Math.floor((Math.min(100, Math.floor((newTotalStudyTime / this.goalTime) * 100))) / 5) * 5;
+
+            // レベルアップを検知
+            if (newImageLevel > this.lastImageLevel) {
+                this.isLevelUp = true;
+                this.levelUpMessage = `${this.imageTitles[newImageLevel]}に進化しました！`;
+                this.lastImageLevel = newImageLevel;
+
+                // レベルアップメッセージを一定時間表示後に非表示にする
+                setTimeout(() => {
+                    this.isLevelUp = false;
+                }, 3000); // 3秒後にリセット
+            } else {
+                this.isLevelUp = false;
+            }
+
+            await updateDoc(userDocRef, {
+                totalStudyTime: newTotalStudyTime
+            });
+            this.totalStudyTime = newTotalStudyTime;
+            this.studyTimeHours = null;
+            this.studyTimeMinutes = null;
+        },
         async fetchUserData() {
             if (!this.user) return;
             const userDocRef = doc(db, 'users', this.user.uid);
@@ -150,6 +180,7 @@ const vueApp = Vue.createApp({
                 const data = docSnap.data();
                 this.goalTime = data.goalTime || 0;
                 this.totalStudyTime = data.totalStudyTime || 0;
+                this.lastImageLevel = Math.floor((Math.min(100, Math.floor((this.totalStudyTime / this.goalTime) * 100))) / 5) * 5;
 
                 if (this.goalTime === 0) {
                     window.location.href = 'set_goal.html';
@@ -163,25 +194,6 @@ const vueApp = Vue.createApp({
                 window.location.href = 'set_goal.html';
             }
         },
-        async recordStudy() {
-            if (!this.user) return;
-            const hours = parseInt(this.studyTimeHours) || 0;
-            const minutes = parseInt(this.studyTimeMinutes) || 0;
-            const timeInMinutes = hours * 60 + minutes;
-
-            if (timeInMinutes <= 0) {
-                alert("有効な学習時間を入力してください。");
-                return;
-            }
-
-            const userDocRef = doc(db, 'users', this.user.uid);
-            await updateDoc(userDocRef, {
-                totalStudyTime: this.totalStudyTime + timeInMinutes
-            });
-            this.totalStudyTime += timeInMinutes;
-            this.studyTimeHours = null;
-            this.studyTimeMinutes = null;
-        },
         async resetAll() {
             if (!this.user) return;
             if (confirm("本当に目標時間と学習時間の両方をリセットしますか？この操作は元に戻せません。")) {
@@ -192,6 +204,7 @@ const vueApp = Vue.createApp({
                 });
                 this.goalTime = 0;
                 this.totalStudyTime = 0;
+                this.lastImageLevel = 0;
                 alert("目標時間と学習時間、両方リセットされました。");
                 window.location.href = 'set_goal.html';
             }

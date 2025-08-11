@@ -51,8 +51,17 @@
                     </div>
                     <div class="level-up-section">
                         <h3>次の生物まで</h3>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" :style="{ width: achievementRate + '%' }"></div>
+                        <div v-if="isLevelUp" class="level-up-message">
+                            <p>{{ levelUpMessage }}</p>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" :style="{ width: '100%' }"></div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" :style="{ width: currentLevelProgress + '%' }"></div>
+                            </div>
+                            <p>達成率: <span class="progress">{{ currentLevelProgress }}%</span></p>
                         </div>
                     </div>
                 </div>
