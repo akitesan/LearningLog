@@ -17,7 +17,7 @@
         <header v-if="user">
             <p>{{ user.displayName }}さん、ようこそ！</p>
             <div class="header-buttons">
-                <button @click="resetAll" id="reset-btn">すべてをリセット</button>
+                <button @click="resetAll" id="reset-btn">リセット</button>
                 <button @click="logout" id="logout-btn">ログアウト</button>
             </div>
         </header>
@@ -25,10 +25,10 @@
         <div class="main-content">
             <div class="left-section">
                 <div class="stats-section">
-                    <h3>現在のレベル : {{ currentImageTitle }}</h3>
+                    <h3>現在の生物 : {{ currentImageTitle }}</h3>
                 </div>
                 <div id="evolution-container">
-                    <img :src="currentImageSrc" :alt="imageAltText" @click="toggleImageMode">
+                    <img :src="currentImageSrc" :alt="imageAltText">
                     <div class="image-text-container">
                         <p class="image-description">{{ currentImageDescription }}</p>
                     </div>
