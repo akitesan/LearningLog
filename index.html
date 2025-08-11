@@ -25,13 +25,13 @@
         <div class="main-content">
             <div class="left-section">
                 <div class="stats-section">
-                    <h3>現在のレベル</h3>
-                    <p>目標: <span class="progress">{{ formattedGoalTime }}</span></p>
-                    <p>現在: <span class="progress">{{ formattedTotalTime }}</span></p>
-                    <p>達成率: <span class="progress">{{ achievementRate }}%</span></p>
+                    <h3>現在のレベル : {{ currentImageTitle }}</h3>
                 </div>
                 <div id="evolution-container">
                     <img :src="currentImageSrc" :alt="imageAltText" @click="toggleImageMode">
+                    <div class="image-text-container">
+                        <p class="image-description">{{ currentImageDescription }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -48,6 +48,10 @@
                             <span>分</span>
                         </div>
                         <button @click="recordStudy">記録する</button>
+                    </div>
+                    <div class="level-up-section">
+                        <h3>進化までの時間</h3>
+                        <p>次のレベルまで残り: <span class="progress">{{ timeToNextLevel }}</span></p>
                     </div>
                 </div>
             </div>

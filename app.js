@@ -18,9 +18,53 @@ const vueApp = Vue.createApp({
             user: null,
             goalTime: 0,
             totalStudyTime: 0,
-            studyTimeHours: null, 
-            studyTimeMinutes: null, 
+            studyTimeHours: null,
+            studyTimeMinutes: null,
             imageMode: 'animal',
+            imageTitles: {
+                5: 'アメーバ',
+                10: 'クラゲ',
+                15: 'ミミズ',
+                20: 'カタツムリ',
+                25: 'クモ',
+                30: 'カブトムシ',
+                35: 'サメ',
+                40: 'カエル',
+                45: 'カメ',
+                50: 'ティラノサウルス',
+                55: 'ワニ',
+                60: 'ペンギン',
+                65: 'カモノハシ',
+                70: 'コアラ',
+                75: 'キツネザル',
+                80: 'ゴリラ',
+                85: 'アウストラロピテクス',
+                90: 'ネアンデルタール人',
+                95: 'ホモ・サピエンス（初期）',
+                100: 'サイボーグ'
+            },
+            imageDescriptions: {
+                5: '地球最初の生命体の一種。単細胞生物であり、環境の変化に柔軟に対応しながら生きています。',
+                10: '神経系や筋肉を持つ多細胞生物の祖先。脳を持たず、単純な体の作りで海中を漂います。',
+                15: '左右対称の体を持つ環形動物。単純ながらも内臓器官が分化し、消化管を持っています。。',
+                20: '軟体動物の一種で、体を覆う殻を進化させました。陸上生活に適応するための重要な一歩です。',
+                25: '節足動物として外骨格と複数の肢を持ち、陸上での生存戦略を確立しました。',
+                30: '昆虫の代表的な存在。硬い外骨格と翅を持ち、空を飛ぶ能力を獲得しました。',
+                35: '軟骨魚類として、強力な顎と鋭い歯を持ち、海洋の捕食者として君臨しました。',
+                40: '両生類として、水と陸の両方で生活できるようになりました。肺呼吸と皮膚呼吸を併用します。',
+                45: '爬虫類として、硬い甲羅で身を守る術を身につけ、陸上での生活に完全に適応しました。',
+                50: '史上最大の陸上捕食者の一種。恐竜時代の頂点に立ち、巨大な体と強力な顎を持ちました。',
+                55: '恐竜の近縁種であり、水辺での生活に特化した形態を持ちます。高い適応力で現在まで生き残りました。',
+                60: '鳥類でありながら、空を飛ぶことをやめ、水中生活に特化しました。翼は泳ぐためのヒレに変化しました。',
+                65: '哺乳類でありながら卵を産むという、進化の過渡期を示すユニークな特徴を持ちます。',
+                70: '有袋類として、育児嚢（いくじのう）で未熟な子を育てます。特定の食物に特化して適応しました。',
+                75: '霊長類の祖先の一種。樹上生活に適した長い尾と指を持ち、社会的な行動の始まりが見られます。',
+                80: '知能が高く、道具を使う能力を持つ大型の霊長類。家族や群れで複雑な社会を形成します。',
+                85: '直立二足歩行を始めた初期の人類。手足が自由に使えるようになり、道具の利用がさらに進みました。',
+                90: 'ホモ・サピエンスと共存していた旧人類。優れた狩猟技術と死者を埋葬する文化を持っていました。',
+                95: '現代人の直接的な祖先。複雑な言語と抽象的な思考能力を獲得し、芸術や文化を生み出しました。',
+                100: '人間と機械が融合した存在。生物的な限界を超え、新しい能力や可能性を獲得した未来の姿です。'
+            }
         };
     },
     computed: {
@@ -41,13 +85,49 @@ const vueApp = Vue.createApp({
         imageAltText() {
             return this.imageMode === 'animal'
                 ? `進化レベル ${this.imageLevel} の動物`
-                : `達成度 ${this.imageLevel}% の国`;
+                : `達成度 ${this.imageLevel}% の国(今後追加)`;
         },
         formattedGoalTime() {
             return this.formatTime(this.goalTime);
         },
         formattedTotalTime() {
             return this.formatTime(this.totalStudyTime);
+        },
+        currentImageTitle() {
+            if (this.imageMode !== 'animal') {
+                return '';
+            }
+            let level = this.imageLevel;
+            if (level === 0 || typeof level === 'undefined') {
+                level = 5;
+            }
+            return this.imageTitles[level];
+        },
+        currentImageDescription() {
+            if (this.imageMode !== 'animal') {
+                return '';
+            }
+            let level = this.imageLevel;
+            if (level === 0 || typeof level === 'undefined') {
+                level = 5;
+            }
+            return this.imageDescriptions[level];
+        },
+        timeToNextLevel() {
+            if (this.goalTime === 0) {
+                return '目標を設定してください';
+            }
+            if (this.achievementRate >= 100) {
+                return '完了';
+            }
+            const currentLevel = Math.floor(this.achievementRate / 5) * 5;
+            const nextLevelPercentage = currentLevel + 5;
+            const timeNeededForNextLevel = this.goalTime * (nextLevelPercentage / 100);
+            const timeRemaining = timeNeededForNextLevel - this.totalStudyTime;
+            if (timeRemaining <= 0) {
+                return 'レベルアップ達成！';
+            }
+            return this.formatTime(Math.ceil(timeRemaining));
         }
     },
     created() {

@@ -15,7 +15,6 @@ header {
     align-items: center;
     margin-bottom: 20px;
     box-sizing: border-box;
-    /* 追加 */
 }
 
 .header-buttons {
@@ -25,11 +24,9 @@ header {
 
 #logout-btn,
 #reset-btn {
-    /* 修正: #reset-btn を追加して共通化 */
     padding: 8px 16px;
     font-size: 14px;
     background-color: #dc3545;
-    /* 修正: #dc3545 に統一 */
     color: white;
     border: none;
     border-radius: 5px;
@@ -125,7 +122,6 @@ button {
     border-radius: 5px;
 }
 
-/* PC Specific Styles */
 @media (min-width: 768px) {
     .main-content {
         flex-direction: row;
