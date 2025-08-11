@@ -50,8 +50,10 @@
                         <button @click="recordStudy">記録する</button>
                     </div>
                     <div class="level-up-section">
-                        <h3>進化までの時間</h3>
-                        <p>次のレベルまで残り: <span class="progress">{{ timeToNextLevel }}</span></p>
+                        <h3>次の生物まで</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" :style="{ width: achievementRate + '%' }"></div>
+                        </div>
                     </div>
                 </div>
             </div>
