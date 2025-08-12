@@ -102,7 +102,7 @@ const vueApp = Vue.createApp({
             }
             let level = this.imageLevel;
             if (level === 0 || typeof level === 'undefined') {
-                level = 5;
+                level = 0;
             }
             return this.imageTitles[level];
         },
@@ -112,7 +112,7 @@ const vueApp = Vue.createApp({
             }
             let level = this.imageLevel;
             if (level === 0 || typeof level === 'undefined') {
-                level = 5;
+                level = 0;
             }
             return this.imageDescriptions[level];
         },
